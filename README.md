@@ -1,89 +1,83 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aplicativo Simples</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Aplicativo Simples',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  final _nomeController = TextEditingController();
+
+  void _enviar() {
+    if (_nomeController.text.isNotEmpty) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Bem-vindo!'),
+          content: Text('Olá, ${_nomeController.text}!'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Por favor, insira seu nome.')),
+      );
     }
-    
-    .container {
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 20px;
-      background-color: #f9f9f9;
-      border: 1px solid #ddd;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    
-    .titulo {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    
-    .formulario {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    
-    .formulario input[type="text"] {
-      width: 100%;
-      height: 30px;
-      font-size: 18px;
-      padding: 10px;
-      border: 1px solid #ccc;
-      margin-bottom: 20px;
-    }
-    
-    .formulario button {
-      width: 200px;
-      height: 30px;
-      font-size: 18px;
-      background-color: #4CAF50;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-    }
-    
-    .formulario button:hover {
-      background-color: #3e8e41;
-    }
-    
-    @media (max-width: 600px) {
-      .container {
-        margin: 20px;
-      }
-      .formulario input[type="text"] {
-        width: 90%;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1 class="titulo">Bem-vindo!</h1>
-    <div class="formulario">
-      <input type="text" id="nome" placeholder="Digite seu nome">
-      <button id="botao">Enviar</button>
-      <p id="mensagem"></p>
-    </div>
-  </div>
-  
-  <script>
-    document.getElementById("botao").addEventListener("click", function() {
-      var nome = document.getElementById("nome").value;
-      if (nome !== "") {
-        document.querySelector(".titulo").textContent = `Olá, ${nome}!`;
-        document.getElementById("mensagem").textContent = "Seja bem-vindo!";
-      } else {
-        alert("Por favor, insira seu nome.");
-      }
-    });
-  </script>
-</body>
-</html>
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Aplicativo Simples'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: _nomeController,
+              decoration: const InputDecoration(
+                labelText: 'Digite seu nome',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _enviar,
+              child: const Text('Enviar'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+     
+      
